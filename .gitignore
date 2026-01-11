@@ -1,0 +1,33 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+dist/
+build/
+
+# --- Virtual env ---
+.venv/
+venv/
+ENV/
+env/
+
+# --- OS / Editor ---
+.DS_Store
+.vscode/
+.idea/
+
+# --- Jupyter (혹시 쓰면) ---
+.ipynb_checkpoints/
+
+# --- Streamlit ---
+.streamlit/secrets.toml
+.streamlit/*.log
+
+# --- Logs / temp ---
+*.log
+*.tmp
+tmp/
+.cache/
