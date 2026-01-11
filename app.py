@@ -1,7 +1,21 @@
 import re
+import warnings
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import platform
+
+# openpyxl 스타일 경고 무시
+warnings.filterwarnings('ignore', category=UserWarning, module='openpyxl')
+
+# 한글 폰트 설정
+if platform.system() == 'Darwin':  # macOS
+    plt.rcParams['font.family'] = 'AppleGothic'
+elif platform.system() == 'Windows':
+    plt.rcParams['font.family'] = 'Malgun Gothic'
+else:  # Linux
+    plt.rcParams['font.family'] = 'NanumGothic'
+plt.rcParams['axes.unicode_minus'] = False
 
 st.set_page_config(page_title="설문 문항별 원그래프", layout="wide")
 st.title("설문 문항별 원그래프")
@@ -146,7 +160,7 @@ for idx, disp in enumerate(display_items, start=1):
         s = series.dropna().astype(str).str.strip()
         s = s[(s != "") & (s != ".")]
         st.caption(f"서술형 응답 수: {len(s)}")
-        st.dataframe(s.to_frame(name="응답"), use_container_width=True)
+        st.dataframe(s.to_frame(name="응답"), width='stretch')
         st.divider()
         continue
 
@@ -166,12 +180,13 @@ for idx, disp in enumerate(display_items, start=1):
     with c1:
         if fig is not None:
             st.pyplot(fig, clear_figure=True)
+            plt.close(fig)
     with c2:
         stat_df = pd.DataFrame({
             "응답": vc.index,
             "빈도": vc.values,
             "비율(%)": (vc.values / vc.values.sum() * 100).round(2),
         })
-        st.dataframe(stat_df, use_container_width=True)
+        st.dataframe(stat_df, width='stretch')
 
     st.divider()
